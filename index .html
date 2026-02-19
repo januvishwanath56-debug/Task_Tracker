@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taskly - Premium Task Tracker</title>
+
+    <!-- Google Fonts - Premium Typography -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Grain texture overlay for premium look -->
+    <div class="grain"></div>
+
+    <!-- ==================== AUTHENTICATION SECTION ==================== -->
+    <div id="auth-section">
+        <div class="auth-wrapper">
+            <div class="auth-container">
+
+                <!-- LOGIN FORM -->
+                <div id="login-form">
+                    <div class="auth-logo">Task Tracker</div>
+                    <div class="auth-subtitle">Track Your Tasks, Achieve Your Goals</div>
+
+                    <!-- Username Input -->
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="login-username" placeholder="Enter your username"
+                            autocomplete="username">
+                    </div>
+
+                    <!-- Password Input with Show/Hide Toggle -->
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div style="position: relative;">
+                            <input type="password" id="login-password" placeholder="Enter your password"
+                                autocomplete="current-password" style="padding-right: 50px;">
+                            <!-- Eye icon button to toggle password visibility -->
+                            <button type="button" onclick="togglePassword('login-password')"
+                                style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; color: var(--text-secondary);">👁️</button>
+                        </div>
+                    </div>
+
+                    <!-- Login Button -->
+                    <button class="btn-primary" onclick="login()">Sign In</button>
+
+                    <!-- Link to Register Form -->
+                    <div class="auth-switch">
+                        Don't have an account? <a href="#" onclick="showRegister()">Create Account</a>
+                    </div>
+                </div>
+
+                <!-- REGISTER FORM (Hidden by default) -->
+                <div id="register-form" style="display: none;">
+                    <div class="auth-logo">Task Tracker</div>
+                    <div class="auth-subtitle">Start Your Journey to Better Productivity</div>
+
+                    <!-- Username Input -->
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="register-username" placeholder="Choose a username"
+                            autocomplete="username">
+                    </div>
+
+                    <!-- Password Input with Show/Hide Toggle -->
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div style="position: relative;">
+                            <input type="password" id="register-password" placeholder="Create a password"
+                                autocomplete="new-password" style="padding-right: 50px;">
+                            <button type="button" onclick="togglePassword('register-password')"
+                                style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; color: var(--text-secondary);">👁️</button>
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password Input with Show/Hide Toggle -->
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <div style="position: relative;">
+                            <input type="password" id="register-confirm-password" placeholder="Confirm your password"
+                                autocomplete="new-password" style="padding-right: 50px;">
+                            <button type="button" onclick="togglePassword('register-confirm-password')"
+                                style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; color: var(--text-secondary);">👁️</button>
+                        </div>
+                    </div>
+
+                    <!-- Register Button -->
+                    <button class="btn-primary" onclick="register()">Create Account</button>
+
+                    <!-- Link to Login Form -->
+                    <div class="auth-switch">
+                        Already have an account? <a href="#" onclick="showLogin()">Sign In</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== DASHBOARD SECTION (Hidden initially) ==================== -->
+    <div id="dashboard-section" style="display: none;">
+        <div class="container">
+
+            <!-- HEADER - Title and User Profile -->
+            <div class="dashboard-header">
+                <div class="dashboard-title">My Tasks</div>
+                <div class="user-profile">
+                    <!-- User Avatar (shows first letter of username) -->
+                    <div class="user-avatar" id="user-avatar"></div>
+                    <!-- Username Display -->
+                    <div class="user-name" id="user-name"></div>
+                    <!-- Logout Button -->
+                    <button class="btn-logout" onclick="logout()">Logout</button>
+                </div>
+            </div>
+
+            <!-- STATISTICS CARDS - Display key metrics -->
+            <div class="stats-grid">
+                <!-- Total Tasks Card -->
+                <div class="stat-card">
+                    <div class="stat-label">Total Tasks</div>
+                    <div class="stat-value" id="total-habits">0</div>
+                </div>
+
+                <!-- Completed Today Card -->
+                <div class="stat-card">
+                    <div class="stat-label">Completed Today</div>
+                    <div class="stat-value" id="completed-today">0</div>
+                    <div class="stat-change" id="today-change"></div>
+                </div>
+
+                <!-- Active Streaks Card -->
+                <div class="stat-card">
+                    <div class="stat-label">Active Streaks</div>
+                    <div class="stat-value" id="active-streaks">0</div>
+                </div>
+
+                <!-- Best Streak Card -->
+                <div class="stat-card">
+                    <div class="stat-label">Best Streak</div>
+                    <div class="stat-value" id="best-streak">0</div>
+                    <div class="stat-change">🔥 days</div>
+                </div>
+            </div>
+
+            <!-- ADD NEW TASK SECTION -->
+            <div class="add-habit-section">
+                <div class="add-habit-title">Create New Task</div>
+                <div class="add-habit-form">
+                    <!-- Input field for new task name -->
+                    <input type="text" class="add-habit-input" id="new-habit-name"
+                        placeholder="What task do you want to track?" maxlength="50">
+                    <!-- Button to add new task -->
+                    <button class="btn-add" onclick="addHabit()">+ Add Task</button>
+                </div>
+            </div>
+
+            <!-- VISUALIZATION TABS - Switch between different views -->
+            <div class="viz-tabs">
+                <div class="viz-tab active" onclick="switchTab('habits')">Tasks</div>
+                <div class="viz-tab" onclick="switchTab('calendar')">Calendar View</div>
+                <div class="viz-tab" onclick="switchTab('analytics')">Analytics</div>
+            </div>
+
+            <!-- CALENDAR HEATMAP VIEW (Hidden by default) -->
+            <div id="calendar-view" class="calendar-heatmap" style="display: none;">
+                <div class="calendar-title">Activity Calendar - Last 28 Days</div>
+                <!-- Calendar grid will be generated by JavaScript -->
+                <div class="calendar-grid" id="calendar-grid"></div>
+            </div>
+
+            <!-- ANALYTICS VIEW (Hidden by default) -->
+            <div id="analytics-view" style="display: none;">
+                <div class="calendar-heatmap">
+                    <div class="calendar-title">📊 Analytics & Insights</div>
+                    <!-- Analytics content will be generated by JavaScript -->
+                    <div id="analytics-content">
+                        <div class="empty-state">
+                            <div class="empty-icon">📈</div>
+                            <h3>No Analytics Yet</h3>
+                            <p>Start by creating tasks and completing them daily to see your progress analytics!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TASKS GRID VIEW (Default view) -->
+            <div id="habits-view">
+                <!-- Task cards will be generated dynamically by JavaScript -->
+                <div class="habits-grid" id="habits-container"></div>
+
+                <!-- Empty State - Shown when no tasks exist -->
+                <div id="empty-state" class="empty-state">
+                    <div class="empty-icon">✨</div>
+                    <h3>No tasks yet</h3>
+                    <p>Start tracking your tasks today!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== HISTORY MODAL ==================== -->
+    <!-- Modal to show task completion history -->
+    <div id="history-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- Modal title (task name will be inserted here) -->
+                <div class="modal-title" id="modal-habit-name"></div>
+                <!-- Close button -->
+                <div class="modal-close" onclick="closeHistoryModal()">×</div>
+            </div>
+            <div class="modal-body">
+                <!-- History list will be generated by JavaScript -->
+                <div class="history-list" id="history-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== DELETE CONFIRMATION MODAL ==================== -->
+    <!-- Modal to confirm task deletion -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">⚠️ Confirm Delete</div>
+                <!-- Close button -->
+                <div class="modal-close" onclick="cancelDelete()">×</div>
+            </div>
+            <div class="modal-body">
+                <!-- Warning message -->
+                <p style="margin-bottom: 24px; color: var(--text-secondary); line-height: 1.6;">
+                    Are you sure you want to delete this task? This will permanently remove all history and streak data.
+                </p>
+                <!-- Action buttons -->
+                <div style="display: flex; gap: 12px;">
+                    <button onclick="cancelDelete()"
+                        style="flex: 1; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text-primary); border-radius: 10px; cursor: pointer; font-weight: 600;">Cancel</button>
+                    <button onclick="confirmDelete()"
+                        style="flex: 1; padding: 14px; background: var(--danger); border: none; color: white; border-radius: 10px; cursor: pointer; font-weight: 600;">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to external JavaScript file -->
+    <script src="app.js"></script>
+</body>
+
+</html>
