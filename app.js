@@ -198,7 +198,7 @@ function login() {
     // Set current user globally
     currentUser = username;
     
-    // Save to session storage (temporary, cleared when browser closes)
+    // Save to session storage (temporary, cleared when browser closes
     sessionStorage.setItem('currentUser', username);
     
     // Clear form fields
@@ -301,6 +301,7 @@ function showNotification(message, type = 'info') {
 // ========================================
 
 // Get current user's data from localStorage
+
 function getUserData() {
     const users = JSON.parse(localStorage.getItem('users') || '{}');
     return users[currentUser] || { habits: [] };
