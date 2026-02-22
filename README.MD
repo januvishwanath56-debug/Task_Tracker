@@ -1,4 +1,4 @@
-# 🎯 Taskly - Premium Task Tracker
+# 🎯 Task Tracker - Premium Task Tracker
 
 A beautiful, feature-rich task tracking application with streak tracking, analytics, and calendar visualization. Built with vanilla JavaScript, HTML, and CSS.
 
@@ -92,8 +92,7 @@ A beautiful, feature-rich task tracking application with streak tracking, analyt
 
 ## 📁 Project Structure
 
-```
-taskly/
+```Task_Tracker/
 ├── index.html         # Main HTML structure
 ├── styles.css         # All styling and animations
 ├── app.js             # Application logic and functionality
