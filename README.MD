@@ -1,4 +1,4 @@
-# 🎯 Taskly - Premium Task Tracker
+# 🎯 Task Tracker - Premium Task Tracker
 
 A beautiful, feature-rich task tracking application with streak tracking, analytics, and calendar visualization. Built with vanilla JavaScript, HTML, and CSS.
 
@@ -64,7 +64,7 @@ A beautiful, feature-rich task tracking application with streak tracking, analyt
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/taskly.git
+   git clone https://github.com/januvishwanath56-debug/Task_Tracker.git
    cd taskly
    ```
 
@@ -92,8 +92,7 @@ A beautiful, feature-rich task tracking application with streak tracking, analyt
 
 ## 📁 Project Structure
 
-```
-taskly/
+```Task_Tracker/
 ├── index.html         # Main HTML structure
 ├── styles.css         # All styling and animations
 ├── app.js             # Application logic and functionality
