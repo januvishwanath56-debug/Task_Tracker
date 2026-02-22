@@ -64,7 +64,7 @@ A beautiful, feature-rich task tracking application with streak tracking, analyt
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/taskly.git
+   git clone https://github.com/januvishwanath56-debug/Task_Tracker.git
    cd taskly
    ```
 
