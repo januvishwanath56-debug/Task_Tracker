@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function togglePassword(inputId) {
     const input = document.getElementById(inputId);
     const button = input.nextElementSibling;
-    
+
     // Toggle between password and text type
     if (input.type === 'password') {
         input.type = 'text';      // Show password
@@ -136,7 +136,7 @@ function register() {
 
     // Get existing users from localStorage
     const users = JSON.parse(localStorage.getItem('users') || '{}');
-    
+
     // Check if username already exists
     if (users[username]) {
         showNotification('Username already exists', 'error');
@@ -152,13 +152,13 @@ function register() {
 
     // Save to localStorage
     localStorage.setItem('users', JSON.stringify(users));
-    
+
     // Show success message
     showNotification('Account created successfully! Please sign in.', 'success');
-    
+
     // Switch to login form
     showLogin();
-    
+
     // Clear form fields
     document.getElementById('register-username').value = '';
     document.getElementById('register-password').value = '';
@@ -179,7 +179,7 @@ function login() {
 
     // Get users from localStorage
     const users = JSON.parse(localStorage.getItem('users') || '{}');
-    
+
     // Check if user exists
     if (!users[username]) {
         showNotification('User not found', 'error');
@@ -197,17 +197,17 @@ function login() {
 
     // Set current user globally
     currentUser = username;
-    
+
     // Save to session storage (temporary, cleared when browser closes
     sessionStorage.setItem('currentUser', username);
-    
+
     // Clear form fields
     document.getElementById('login-username').value = '';
     document.getElementById('login-password').value = '';
-    
+
     // Show welcome message
     showNotification('Welcome back, ' + username + '! 🎉', 'success');
-    
+
     // Show the dashboard
     showDashboard();
 }
@@ -217,11 +217,11 @@ function logout() {
     currentUser = null;
     sessionStorage.removeItem('currentUser');
     // Note: We don't delete the cookie so username is remembered for next login
-    
+
     // Hide dashboard, show auth section
     document.getElementById('dashboard-section').style.display = 'none';
     document.getElementById('auth-section').style.display = 'block';
-    
+
     showNotification('Logged out successfully', 'info');
 }
 
@@ -239,14 +239,14 @@ function showDashboard() {
     // Hide auth section, show dashboard
     document.getElementById('auth-section').style.display = 'none';
     document.getElementById('dashboard-section').style.display = 'block';
-    
+
     // Set user avatar (first letter of username)
     const initial = currentUser.charAt(0).toUpperCase();
     document.getElementById('user-avatar').textContent = initial;
-    
+
     // Set username
     document.getElementById('user-name').textContent = currentUser;
-    
+
     // Load all user data
     loadHabits();
     updateStats();
@@ -265,7 +265,7 @@ function showNotification(message, type = 'info') {
     // Create notification element
     const notification = document.createElement('div');
     notification.className = 'notification';
-    
+
     // Set colors based on type (success/error/info)
     notification.style.cssText = `
         position: fixed;
@@ -284,10 +284,10 @@ function showNotification(message, type = 'info') {
         min-width: 300px;
     `;
     notification.textContent = message;
-    
+
     // Add to page
     document.body.appendChild(notification);
-    
+
     // Auto-remove after 3 seconds
     setTimeout(() => {
         notification.style.animation = 'fadeOut 0.3s ease-out';
@@ -377,7 +377,7 @@ function addHabit() {
 
     // Show success message
     showNotification('Task created successfully!', 'success');
-    
+
     // Refresh displays
     loadHabits();
     updateStats();
@@ -397,7 +397,7 @@ function loadHabits() {
     } else {
         // Hide empty state
         emptyState.style.display = 'none';
-        
+
         // Generate HTML for each task card
         habitsContainer.innerHTML = userData.habits.map(habit => createHabitCard(habit)).join('');
     }
@@ -409,7 +409,7 @@ function createHabitCard(habit) {
     const completedToday = habit.history.includes(today);
     const buttonText = completedToday ? '✓ Completed' : 'Mark Complete';
     const buttonDisabled = completedToday ? 'disabled' : '';
-    
+
     // Calculate completion rate for last 7 days
     const last7Days = getLast7Days();
     const completedLast7 = last7Days.filter(date => habit.history.includes(date)).length;
@@ -498,10 +498,10 @@ function completeHabit(habitId) {
 
     // Save changes
     saveUserData(userData);
-    
+
     // Show success message
     showNotification('Great job! Task completed! 🎉', 'success');
-    
+
     // Refresh displays
     loadHabits();
     updateStats();
@@ -519,11 +519,11 @@ function updateStreak(habit) {
     // If first completion, streak is 1
     if (sortedHistory.length === 1) {
         habit.streak = 1;
-    } 
+    }
     // If completed yesterday, increment streak
     else if (sortedHistory.includes(yesterday)) {
         habit.streak++;
-    } 
+    }
     // If missed yesterday, reset to 1
     else {
         habit.streak = 1;
@@ -562,20 +562,20 @@ function confirmDelete() {
     if (!habitToDelete) return;
 
     const userData = getUserData();
-    
+
     // Remove task from array
     userData.habits = userData.habits.filter(h => h.id !== habitToDelete);
     saveUserData(userData);
 
     // Clear temporary variable
     habitToDelete = null;
-    
+
     // Close modal
     document.getElementById('confirm-modal').classList.remove('active');
-    
+
     // Show notification
     showNotification('Task deleted', 'info');
-    
+
     // Refresh displays
     loadHabits();
     updateStats();
@@ -600,7 +600,7 @@ function showHistory(habitId) {
     } else {
         // Sort history newest to oldest
         const sortedHistory = habit.history.sort((a, b) => new Date(b) - new Date(a));
-        
+
         // Generate history HTML with stats
         historyList.innerHTML = `
             <div style="margin-bottom: 24px;">
@@ -638,7 +638,7 @@ function getDaysAgo(dateString) {
     const today = new Date();
     const diffTime = Math.abs(today - date);
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays === 0) return 'Today';
     if (diffDays === 1) return 'Yesterday';
     return `${diffDays} days ago`;
@@ -660,7 +660,7 @@ function updateStats() {
     // Completed today count
     const completedToday = userData.habits.filter(h => h.history.includes(today)).length;
     document.getElementById('completed-today').textContent = completedToday;
-    
+
     // Today's completion percentage
     const totalHabits = userData.habits.length;
     const todayPercentage = totalHabits > 0 ? Math.round((completedToday / totalHabits) * 100) : 0;
@@ -682,7 +682,7 @@ function updateStats() {
 function generateCalendar() {
     const calendarGrid = document.getElementById('calendar-grid');
     const userData = getUserData();
-    
+
     // Get last 28 days (4 weeks)
     const days = [];
     for (let i = 27; i >= 0; i--) {
@@ -695,14 +695,14 @@ function generateCalendar() {
     calendarGrid.innerHTML = days.map(date => {
         const dateStr = formatDateForCalendar(date);
         const dayNumber = date.getDate();
-        
+
         // Count completed tasks on this day
-        const completedCount = userData.habits.filter(habit => 
+        const completedCount = userData.habits.filter(habit =>
             habit.history.includes(dateStr)
         ).length;
-        
+
         const hasActivity = completedCount > 0;
-        
+
         return `
             <div class="calendar-day ${hasActivity ? 'has-activity' : ''}" title="${dateStr}">
                 <div class="calendar-day-number">${dayNumber}</div>
@@ -726,23 +726,23 @@ function formatDateForCalendar(date) {
 // ========================================
 function switchTab(view) {
     currentView = view;
-    
+
     // Update tab active states
     document.querySelectorAll('.viz-tab').forEach(tab => {
         tab.classList.remove('active');
     });
     event.target.classList.add('active');
-    
+
     // Show/hide appropriate view
     document.getElementById('habits-view').style.display = view === 'habits' ? 'block' : 'none';
     document.getElementById('calendar-view').style.display = view === 'calendar' ? 'block' : 'none';
     document.getElementById('analytics-view').style.display = view === 'analytics' ? 'block' : 'none';
-    
+
     // Generate calendar when switching to calendar view
     if (view === 'calendar') {
         generateCalendar();
     }
-    
+
     // Generate analytics when switching to analytics view
     if (view === 'analytics') {
         generateAnalytics();
@@ -753,7 +753,7 @@ function switchTab(view) {
 function generateAnalytics() {
     const userData = getUserData();
     const analyticsContent = document.getElementById('analytics-content');
-    
+
     // Show empty state if no tasks
     if (userData.habits.length === 0) {
         analyticsContent.innerHTML = `
@@ -766,10 +766,10 @@ function generateAnalytics() {
     } else {
         // Calculate analytics metrics
         const totalCompletions = userData.habits.reduce((sum, habit) => sum + habit.history.length, 0);
-        const avgStreak = userData.habits.length > 0 
-            ? Math.round(userData.habits.reduce((sum, habit) => sum + habit.streak, 0) / userData.habits.length) 
+        const avgStreak = userData.habits.length > 0
+            ? Math.round(userData.habits.reduce((sum, habit) => sum + habit.streak, 0) / userData.habits.length)
             : 0;
-        
+
         // Display analytics
         analyticsContent.innerHTML = `
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 32px;">
@@ -796,10 +796,10 @@ function generateAnalytics() {
 // ========================================
 
 // Close modals when clicking outside
-window.onclick = function(event) {
+window.onclick = function (event) {
     const historyModal = document.getElementById('history-modal');
     const confirmModal = document.getElementById('confirm-modal');
-    
+
     if (event.target === historyModal) {
         closeHistoryModal();
     }
@@ -809,22 +809,22 @@ window.onclick = function(event) {
 }
 
 // Handle Enter key press in forms
-document.addEventListener('keypress', function(event) {
+document.addEventListener('keypress', function (event) {
     if (event.key === 'Enter') {
         const activeElement = document.activeElement;
-        
+
         // Login form
         if (activeElement.id === 'login-username' || activeElement.id === 'login-password') {
             login();
         }
-        
+
         // Register form
-        if (activeElement.id === 'register-username' || 
-            activeElement.id === 'register-password' || 
+        if (activeElement.id === 'register-username' ||
+            activeElement.id === 'register-password' ||
             activeElement.id === 'register-confirm-password') {
             register();
         }
-        
+
         // Add task input
         if (activeElement.id === 'new-habit-name') {
             addHabit();
